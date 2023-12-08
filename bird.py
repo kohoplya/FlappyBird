@@ -12,8 +12,6 @@ class Bird(pg.sprite.Sprite):
                         pg.transform.scale_by(pg.image.load("./assets/birds/greenBirdUp.png").convert_alpha(), scaleFactor),
                         pg.transform.scale_by(pg.image.load("./assets/birds/pinkBirdDown.png").convert_alpha(), scaleFactor),
                         pg.transform.scale_by(pg.image.load("./assets/birds/pinkBirdUp.png").convert_alpha(), scaleFactor),
-                        pg.transform.scale_by(pg.image.load("./assets/birds/purpleBirdDown.png").convert_alpha(), scaleFactor),
-                        pg.transform.scale_by(pg.image.load("./assets/birds/purpleBirdUp.png").convert_alpha(), scaleFactor),
                         pg.transform.scale_by(pg.image.load("./assets/birds/ukBirdDown.png").convert_alpha(), scaleFactor),
                         pg.transform.scale_by(pg.image.load("./assets/birds/ukBirdUp.png").convert_alpha(), scaleFactor),
                         pg.transform.scale_by(pg.image.load("./assets/birds/upaBirdDown.png").convert_alpha(), scaleFactor),

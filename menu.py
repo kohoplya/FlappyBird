@@ -18,8 +18,6 @@ class Menu:
         self.bird.rect.center = (80, 200)
         self.record = Record()
 
-        self.price = 10
-
     def menuloop(self):
         last_time=time.time()
         while True:
@@ -81,38 +79,69 @@ class Menu:
         
         self.win.blit(self.bird.img, self.bird.rect)
 
+    def pickBird(self, nameRect):
+        if nameRect.collidepoint(pg.mouse.get_pos()):
+            if self.record.getCoins() >= self.selectedPrice:
+                if self.birdsRects.index(nameRect) == 0:
+                    index = self.birdsRects.index(nameRect)
+                else:
+                    index = self.birdsRects.index(nameRect) * 2
+
+                self.record.updateBirdImgIndex(index)
+                self.bird.updateImg()
+
+                self.currentCoins = self.record.getCoins() - self.selectedPrice
+                self.record.setCoins(self.currentCoins)
+                self.drawText("successText", f"Success", WHITE, 250, 250)
+                self.coinsText = self.font.render(f"{self.record.getCoins()}",True, WHITE)
+            else:
+                self.drawText("unSuccessText", f"Not enough coins!!!", WHITE, 250, 250)
+
     def Shop(self):
+        self.birdsScale = 2
+        self.randomPrice = 10
+        self.selectedPrice = 20
+
         self.drawElement("bgImg", "./assets/bg.png", 520, 924, 250, 250)
         self.drawElement("backImg", "./assets/back.png", 26*1.4, 28*1.4, 30, 35)
         self.drawElement("coinsImg", "./assets/coins.png", 140*1.4, 28*1.4, 372, 35)   
-        self.drawElement("buyImg", "./assets/buyButton.png", 160*2, 56*2, 250, 250)
         self.drawElement("cheatImg", "./assets/cheat.png", 80*1.4, 28*1.4, 414, 76)
+        self.drawElement("cummonBirdDown", "./assets/birds/cummonBirdDown.png", 34 * self.birdsScale, 24 * self.birdsScale, 100, 180)
+        self.drawElement("greenBirdDown", "./assets/birds/greenBirdDown.png", 34 * self.birdsScale, 24 * self.birdsScale, 250, 180)
+        self.drawElement("pinkBirdDown", "./assets/birds/pinkBirdDown.png", 34 * self.birdsScale, 24 * self.birdsScale, 400, 180)
+        self.drawElement("ukBirdDown", "./assets/birds/ukBirdDown.png", 34 * self.birdsScale, 24 * self.birdsScale, 100, 330)
+        self.drawElement("upaBirdDown", "./assets/birds/upaBirdDown.png", 34 * self.birdsScale, 24 * self.birdsScale, 250, 330)
+        self.drawElement("yellowBirdDown", "./assets/birds/yellowBirdDown.png", 34 * self.birdsScale, 24 * self.birdsScale, 400, 330)
+        self.drawElement("buySelected", "./assets/buySelected.png", 160*1.3, 56*1.3, 120, 450)
+        self.drawElement("buyRandom", "./assets/buyButton.png", 160 * 1.3, 56 * 1.3, 380, 450)
 
         self.drawText("coinsText", f"{self.record.getCoins()}", WHITE, 412, 35)
+
+        self.birdsRects = [self.cummonBirdDownRect, self.greenBirdDownRect, self.pinkBirdDownRect, self.ukBirdDownRect, self.upaBirdDownRect, self.yellowBirdDownRect]
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
-
-            if self.backImgRect.collidepoint(pg.mouse.get_pos()):
-                if event.type == pg.MOUSEBUTTONUP:
-                    self.bird.updateImg()
-                    self.isShop = False
-            if self.cheatImgRect.collidepoint(pg.mouse.get_pos()):
-                if event.type == pg.MOUSEBUTTONUP:
-                    self.record.updateCoins(50)
-                    
-            if self.buyImgRect.collidepoint(pg.mouse.get_pos()):
-                if event.type == pg.MOUSEBUTTONUP:
-                    if self.record.getCoins() >= self.price:
+            if event.type == pg.MOUSEBUTTONUP:
+                if self.backImgRect.collidepoint(pg.mouse.get_pos()):
+                        self.bird.updateImg()
+                        self.isShop = False
+                if self.cheatImgRect.collidepoint(pg.mouse.get_pos()):
+                        self.record.updateCoins(50)
+                        
+                if self.buyRandomRect.collidepoint(pg.mouse.get_pos()):
+                    if self.record.getCoins() >= self.randomPrice:
                         self.randNum = randint(0, len(self.bird.birdList) // 2 - 1) * 2
-                        self.record.updateRandNum(self.randNum)
+                        self.record.updateBirdImgIndex(self.randNum)
                         self.bird.updateImg()
 
-                        self.currentCoins = self.record.getCoins() - self.price
+                        self.currentCoins = self.record.getCoins() - self.randomPrice
                         self.record.setCoins(self.currentCoins)
-                        self.drawText("successText", f"Success", WHITE, 250, 320)
+                        self.drawText("successText", f"Success", WHITE, 250, 250)
                         self.coinsText = self.font.render(f"{self.record.getCoins()}",True, WHITE)
                     else:
-                        self.drawText("unSuccessText", f"Not enough coins!!!", WHITE, 250, 320)
+                        self.drawText("unSuccessText", f"Not enough coins!!!", WHITE, 250, 250)
+                
+                for birdRect in self.birdsRects:
+                    self.pickBird(birdRect)

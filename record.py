@@ -37,7 +37,7 @@ class Record:
         with open(self.filename, 'w') as file:
             file.write(f"{self.maxScore}\n{currentCoins}\n{self.birdImgIndex}")
 
-    def updateRandNum(self, num):
+    def updateBirdImgIndex(self, num):
         self.load()
         self.save(self.maxScore, 0, num)
 
