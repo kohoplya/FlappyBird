@@ -201,7 +201,7 @@ class Game:
         if self.isGameOver == True:
             self.restartMenu()
         if self.isEnter == False and not self.isGameOver:
-            self.createText("tutorial", "Press enter to start and space or lmb to flip", WHITE, 400, 300, 20, 1)
+            self.createText("tutorial", "Press enter to start and space or mb to flip", WHITE, 400, 300, 20, 1)
 
 menu = Menu()
 menu.menuloop()
